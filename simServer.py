@@ -28,6 +28,8 @@ client.username_pw_set(user, password=password)
 client.on_publish = on_publish
 client.connect(broker_address, port=port)
 
+print("Test text")
+
 # publishing topic information for all components with one second sleeps in between
 ret =  client.publish("topics", "{\"id\": \"pixy\", \"pub\": 1, \"rec\": 0, \"t1\": \"\", \"t2\": \"\", \"t3\": \"\", \"t4\": \"\"}")
 time.sleep(1)
