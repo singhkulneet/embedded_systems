@@ -391,8 +391,7 @@ void * MqttClient(void *pvParameters)
                 MQTTClient_publish(gMqttClient, (char*) publish_topic, strlen(
                                   (char*)publish_topic),
                                   buf,
-                                  strlen(buf), MQTT_QOS_2 |
-                                  ((RETAIN_ENABLE) ? MQTT_PUBLISH_RETAIN : 0));
+                                  strlen(buf), MQTT_QOS_0);
 
             UART_PRINT("\n\rCC3200 Publishes the following message\n\r");
             UART_PRINT("Topic: %s\n\r", publish_topic);
