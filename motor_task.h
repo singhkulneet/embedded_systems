@@ -18,8 +18,10 @@
 
 /* Including User Defined Headers */
 #include "ti_drivers_config.h"
+#include "client_cbs.h"
+#include "mqtt_client_app.h"
 
 // Main Task Function Prototype
-void vMotorTask(void *pvParameters);
+void * vMotorTask(void *pvParameters);
 
 #endif /* MOTOR_TASK_H_ */

@@ -19,15 +19,7 @@
 //including message queue header file
 #include "msg_queue.h"
 
-// Global UART
-UART_Handle uart;
-
-// User-Defined Helper Functions
-void dispCurent(int motorState[]);
-void dispTest(int num);
-void writeString(char str[]);
-
 // Main Task Function Prototype
-void vTestTask(void *pvParameters);
+void * vTestTask(void *pvParameters);
 
 #endif /* TEST_TASK_H_ */

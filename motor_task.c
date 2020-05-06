@@ -13,7 +13,7 @@ PWM_Handle pwm4 = NULL; // x
 int moveMotor(int motor_num);
 int convert(int degrees, int motor_num);
 
-void vMotorTask(void *pvParameters)
+void * vMotorTask(void *pvParameters)
 {
     /* Period and duty in microseconds */
     uint32_t   pwmPeriod = 20000;
@@ -68,6 +68,13 @@ void vMotorTask(void *pvParameters)
     int ret;
     int i;
 
+    message_t value;
+    value.type = DONE;
+    struct msgQueue queueElement;
+    queueElement.event = PUBLISH_TO_SERVER;
+    queueElement.msgPtr = NULL;
+    queueElement.m = value;
+
     while(1)
     {
         m = rxFromMotorQ();
@@ -76,39 +83,39 @@ void vMotorTask(void *pvParameters)
             case IDLE:
                 if(m.type == DROP)
                 {
-                   motorState = MOVING_0;
-                   motorDir = DROPPING;
-                   for(i=0; i<4; i++)
-                   {
-                       goal_state[i] = m.motor[i];
-                   }
-                   moveMotor(0);
+                    motorState = MOVING_0;
+                    motorDir = DROPPING;
+                    for(i=0; i<4; i++)
+                    {
+                        goal_state[i] = m.motor[i];
+                    }
+                    moveMotor(0);
                 }
                 else if(m.type == PICK)
                 {
-                   motorState = MOVING_3;
-                   motorDir = PICKING;
-                   for(i=0; i<4; i++)
-                   {
-                       goal_state[i] = m.motor[i];
-                   }
-                   moveMotor(3);
+                    motorState = MOVING_3;
+                    motorDir = PICKING;
+                    for(i=0; i<4; i++)
+                    {
+                        goal_state[i] = m.motor[i];
+                    }
+                    moveMotor(3);
                 }
             break;
             case MOVING_0:
                 if(m.type == TIME)
                 {
-                  ret = moveMotor(0);
+                    ret = moveMotor(0);
 
-                  if(ret)
-                  {
-                      if(motorDir == DROPPING) {
-                          motorState = MOVING_1;
-                      }
-                      else {
-                          motorState = DONE_M;
-                      }
-                  }
+                    if(ret)
+                    {
+                        if(motorDir == DROPPING) {
+                            motorState = MOVING_1;
+                        }
+                        else {
+                            motorState = DONE_M;
+                        }
+                    }
                 }
             break;
             case MOVING_1:
@@ -130,17 +137,17 @@ void vMotorTask(void *pvParameters)
             case MOVING_2:
                 if(m.type == TIME)
                 {
-                  ret = moveMotor(2);
+                    ret = moveMotor(2);
 
-                  if(ret)
-                  {
-                      if(motorDir == DROPPING) {
-                          motorState = MOVING_3;
-                      }
-                      else {
-                          motorState = MOVING_1;
-                      }
-                  }
+                    if(ret)
+                    {
+                        if(motorDir == DROPPING) {
+                            motorState = MOVING_3;
+                        }
+                        else {
+                            motorState = MOVING_1;
+                        }
+                    }
                 }
             break;
             case MOVING_3:
@@ -161,7 +168,17 @@ void vMotorTask(void *pvParameters)
             break;
             case DONE_M:
                 m.type = DONE;
-                txToTestQ(m);
+                
+                int i;
+                for(i=0; i<4; i++)
+                {
+                    queueElement.m.motor[i] = motorCurNum[i];
+                }
+                
+                if(MQTT_SendMsgToQueue(&queueElement))
+                {
+                    UART_PRINT("\n\n\rQueue is full\n\n\r");
+                }
                 motorState = IDLE;
             break;
         }
@@ -185,14 +202,6 @@ int moveMotor(int motor_num)
                 break;
             case 3: PWM_setDuty(pwm4, convert(cur_state, motor_num));
                 break;
-//            case 0: PWM_setDuty(pwm1, cur_state);
-//                break;
-//            case 1: PWM_setDuty(pwm2, cur_state);
-//                break;
-//            case 2: PWM_setDuty(pwm3, cur_state);
-//                break;
-//            case 3: PWM_setDuty(pwm4, cur_state);
-//                break;
         }
 
         motorCurNum[motor_num] = cur_state + 1;
@@ -209,14 +218,6 @@ int moveMotor(int motor_num)
                 break;
             case 3: PWM_setDuty(pwm4, convert(cur_state, motor_num));
                 break;
-//            case 0: PWM_setDuty(pwm1, cur_state);
-//                break;
-//            case 1: PWM_setDuty(pwm2, cur_state);
-//                break;
-//            case 2: PWM_setDuty(pwm3, cur_state);
-//                break;
-//            case 3: PWM_setDuty(pwm4, cur_state);
-//                break;
         }
 
         motorCurNum[motor_num] = cur_state - 1;
@@ -224,7 +225,7 @@ int moveMotor(int motor_num)
 
 
     // Checking if goal state is achieve
-    if(cur_state == goal_state[motor_num])
+    if(cur_state + 1 == goal_state[motor_num])
     {
         return 1;
     }
