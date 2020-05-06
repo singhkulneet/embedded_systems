@@ -4,14 +4,15 @@
 
 /* Prints out struct values to UART */
 void printDevData(dev_data d) {
-
-    UART_PRINT("Recived Struct {\r\n\r\n");
+    UART_PRINT("RPi Client Publishes the following message:\r\n");
+    UART_PRINT("Topic: /cc3200/MoveMotors\r\n");
+    UART_PRINT("Subscribed Struct {\r\n");
     UART_PRINT("    type: %s\r\n", d.type);
     UART_PRINT("    motor0: %d\r\n", d.motor0);
     UART_PRINT("    motor1: %d\r\n", d.motor1);
     UART_PRINT("    motor2: %d\r\n", d.motor2);
     UART_PRINT("    motor3: %d\r\n", d.motor3);
-    UART_PRINT("\r\n}\r\n");
+    UART_PRINT("}\r\n");
 }
 
 

@@ -1,3 +1,5 @@
+*Run from RPi Server*
 Sample publish command:
-mosquitto_pub -h 172.16.0.29 -t "/cc3200/MoveMotors" -m "{\"type\": \"PICK\", \"motor0\": 90, \"motor1\": 95, \"motor2\": 98, \"motor3\": 100}"
+mosquitto_pub -h localhost -t "/cc3200/MoveMotors" -m "{\"type\": \"PICK\", \"motor0\": 90, \"motor1\": 95, \"motor2\": 98, \"motor3\": 100}"
+Sample subscribe command:
 mosquitto_sub -h localhost -t "/server/DoneMoving"

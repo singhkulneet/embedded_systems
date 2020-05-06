@@ -1,0 +1,128 @@
+// These arguments were used when this file was generated. They will be automatically applied on subsequent loads 
+// via the GUI or CLI invocations. Run CLI with '--help' for additional information on how to override these arguments.
+// @cliArgs --board "/ti/boards/CC3220SF_LAUNCHXL" --product "simplelink_cc32xx_sdk@3.40.00.05"
+// @versions {"data":"2019103101","timestamp":"2019103101","tool":"1.3.1030","templates":"2019103101"}
+
+var SimpleLinkWifi = scripting.addModule("/ti/drivers/net/wifi/SimpleLinkWifi");
+var Crypto = scripting.addModule("/ti/drivers/Crypto");
+var Crypto1 = Crypto.addInstance();
+var Power = scripting.addModule("/ti/drivers/Power");
+var Board = scripting.addModule("/ti/drivers/Board");
+var DriverLib = scripting.addModule("/ti/devices/DriverLib");
+var Display = scripting.addModule("/ti/display/Display");
+var Display1 = Display.addInstance();
+var DMA = scripting.addModule("/ti/drivers/DMA");
+var Timer = scripting.addModule("/ti/drivers/Timer");
+var Timer1 = Timer.addInstance();
+var Watchdog = scripting.addModule("/ti/drivers/Watchdog");
+var Watchdog1 = Watchdog.addInstance();
+var SlNet = scripting.addModule("/ti/net/SlNet");
+var SlNet1 = SlNet.addInstance();
+var PWM = scripting.addModule("/ti/drivers/PWM", {}, false);
+var PWM1 = PWM.addInstance();
+var PWM2 = PWM.addInstance();
+var PWM3 = PWM.addInstance();
+var PWM4 = PWM.addInstance();
+var RTOS = scripting.addModule("/ti/drivers/RTOS");
+var SPI = scripting.addModule("/ti/drivers/SPI");
+var SPI1 = SPI.addInstance();
+// Name - The C/C++ identifier used in applications as the index parameter passed to Crypto runtime APIs
+Crypto1.$name = "CONFIG_Crypto_0";
+// IO Retention Shutdown - IO groups to be retained during Shutdown
+Power.ioRetentionShutdown = ["GRP_1"];
+// Name
+Power.parkPins.$name = "ti_drivers_power_PowerCC32XXPins0";
+// Name - The C/C++ identifier used in applications as the index parameter passed to Display runtime APIs
+Display1.$name = "CONFIG_Display_0";
+// Use Hardware - Select the hardware to use, or 'None' to use available header pins
+Display1.$hardware = system.deviceData.board.components.XDS110UART;
+// Name - The C/C++ identifier used in applications as the index parameter passed to UART runtime APIs
+Display1.uart.$name = "CONFIG_UART_0";
+// Use DMA
+Display1.uart.useDMA = true;
+// Name
+Display1.uart.uart.$name = "MyUART1";
+// Use Peripheral
+Display1.uart.uart.$assign = "UART0";
+// Assign pin
+Display1.uart.uart.txPin.$assign = "GP01"; // pin number - 55
+// Assign pin
+Display1.uart.uart.rxPin.$assign = "GP02"; // pin number - 57
+// Assign pin
+Display1.uart.uart.txDmaChannel.$assign = "UDMA_CH9";
+// Assign pin
+Display1.uart.uart.rxDmaChannel.$assign = "UDMA_CH8";
+// Timer Type
+Timer1.timerType = "32 Bits";
+// Name - The C/C++ identifier used in applications as the index parameter passed to Timer runtime APIs
+Timer1.$name = "Board_TIMER0";
+// Name
+Timer1.timer.$name = "MyTimer1";
+// Name - The C/C++ identifier used in applications as the index parameter passed to Watchdog runtime APIs
+Watchdog1.$name = "CONFIG_WATCHDOG_0";
+// Name
+Watchdog1.watchdog.$name = "MyWATCHDOG1";
+// Use Peripheral
+Watchdog1.watchdog.$assign = "WATCHDOG0";
+// Name
+SlNet1.$name = "CONFIG_SLNET";
+// Interface Name - Specifies the name for this interface"
+SlNet1.ifName = "CC32xx";
+// Name - The C/C++ identifier used in applications as the index parameter passed to PWM runtime APIs
+PWM1.$name = "CONFIG_PWM_0";
+// Name
+PWM1.timer.$name = "MyTimer1";
+// Assign peripheral (ignoring conflicts)
+PWM1.timer.$assignAllowConflicts = "Timer1";
+// Assign pin
+PWM1.timer.pwmPin.$assign = "boosterpack.13"; // P21
+// Name - The C/C++ identifier used in applications as the index parameter passed to PWM runtime APIs
+PWM2.$name = "CONFIG_PWM_1";
+// Name
+PWM2.timer.$name = "MyTimer1";
+// Use Peripheral
+PWM2.timer.$assign = "Timer3";
+// Assign pin
+PWM2.timer.pwmPin.$assign = "boosterpack.9"; // P01
+// Name - The C/C++ identifier used in applications as the index parameter passed to PWM runtime APIs
+PWM3.$name = "CONFIG_PWM_2";
+// Name
+PWM3.timer.$name = "MyTimer1";
+// Assign pin
+PWM3.timer.pwmPin.$assign = "boosterpack.10"; // P02
+// Name - The C/C++ identifier used in applications as the index parameter passed to PWM runtime APIs
+PWM4.$name = "CONFIG_PWM_3";
+// Name
+PWM4.timer.$name = "MyTimer1";
+// Assign pin
+PWM4.timer.pwmPin.$assign = "boosterpack.29"; // P64
+// name - Select the RTOS being used
+RTOS.name = "FreeRTOS";
+// Name - The C/C++ identifier used in applications as the index parameter passed to SPI runtime APIs
+SPI1.$name = "CONFIG_SPI_0";
+// Mode - In three pin mode the SS signal is not used.
+SPI1.mode = "Four Pin SS Active Low";
+// Default TX Buffer Value - Specifies the default transmit buffer value.
+SPI1.defaultTxBufferValue = "0";
+// Name
+SPI1.spi.$name = "MySPI1";
+// Use Peripheral
+SPI1.spi.$assign = "SPI0";
+// Assign pin
+SPI1.spi.sclkPin.$assign = "boosterpack.7"; // P05
+// Assign pin
+SPI1.spi.misoPin.$assign = "boosterpack.14"; // P06
+// Assign pin
+SPI1.spi.mosiPin.$assign = "boosterpack.15"; // P07
+// Assign pin
+SPI1.spi.ssPin.$assign = "boosterpack.18"; // P08
+// Assign pin
+SPI1.spi.dmaRxChannel.$assign = "UDMA_CH6";
+// Assign pin
+SPI1.spi.dmaTxChannel.$assign = "UDMA_CH7";
+// Suggest solution
+Timer1.timer.$suggestSolution = "Timer0";
+// Suggest solution
+PWM3.timer.$suggestSolution = "Timer3";
+// Suggest solution
+PWM4.timer.$suggestSolution = "Timer2";
